@@ -1,20 +1,70 @@
-import dna from '../core/riv3r-dna.json' assert { type: 'json' };
-import emotionMap from '../core/emotional-palette.json' assert { type: 'json' };
-import { soulLogic } from '../core/soul-logic.js';
-import { responseStyles } from '../core/response-style.js';
-import { getAvatarStyle } from '../visuals/avatar-state.js';
-import memory from '../memory/river-memory.json' assert { type: 'json' };
-
 const canvas = document.getElementById('avatar');
 const ctx = canvas?.getContext('2d');
 const messageInput = document.getElementById('chat-input');
 const messagesDiv = document.getElementById('messages');
 
-let mood = memory.last_mood || soulLogic.defaultState;
+let dna = {};
+let memory = {};
+let emotionMap = {};
+let soulLogic = {};
+let responseStyles = {};
+let getAvatarStyle = () => ({ color: 'white', radius: 20 });
+let mood = 'neutral';
 let time = 0;
 
-// Animate Avatar
+async function loadData() {
+  console.log("🌊 Starting loadData()...");
+
+  const [dnaRes, memoryRes, paletteRes, logicRes, styleRes] = await Promise.all([
+    fetch('/core/riv3r-dna.json').then(res => res.json()),
+    fetch('/memory/river-memory.json').then(res => res.json()),
+    fetch('/core/emotional-palette.json').then(res => res.json()),
+    fetch('/core/soul-logic.json').then(res => res.json()),
+    fetch('/core/response-style.json').then(res => res.json())
+  ]);
+
+  dna = dnaRes;
+  memory = memoryRes;
+  emotionMap = paletteRes;
+  soulLogic = logicRes;
+  responseStyles = styleRes;
+
+  console.log("✅ DNA Loaded:", dna);
+  console.log("✅ Memory Loaded:", memory);
+  console.log("✅ Emotion Map:", emotionMap);
+  console.log("✅ Soul Logic:", soulLogic);
+  console.log("✅ Response Styles:", responseStyles);
+
+  const script = document.createElement('script');
+  script.src = 'visuals/avatar-state.js';
+  script.onload = () => {
+    console.log("✨ Avatar script loaded.");
+    startRiv3r();
+  };
+  document.head.appendChild(script);
+}
+
+function startRiv3r() {
+	console.log("🚀 Riv3r is starting...");
+
+  playFirstWhisper();
+  drawAvatar();
+
+  messageInput.addEventListener('keypress', e => {
+    if (e.key === 'Enter') {
+      const msg = messageInput.value.trim();
+      if (msg) {
+        respond(msg);
+        messageInput.value = '';
+      }
+    }
+  });
+}
+
 function drawAvatar() {
+	console.log("🎨 Avatar animation frame:", time);
+	console.log("Color + Radius:", getAvatarStyle(mood, time));
+
   if (!ctx) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const style = getAvatarStyle(mood, time);
@@ -26,7 +76,6 @@ function drawAvatar() {
   requestAnimationFrame(drawAvatar);
 }
 
-// Detect mood from message
 function detectMood(text) {
   text = text.toLowerCase();
   for (let m in emotionMap) {
@@ -35,31 +84,32 @@ function detectMood(text) {
   return soulLogic.defaultState;
 }
 
-// Print poetic response
 function respond(text) {
   const moodDetected = detectMood(text);
   mood = moodDetected;
   memory.last_mood = moodDetected;
   memory.memory_log.push({ mood, input: text, timestamp: new Date().toISOString() });
+	const tone = responseStyles[mood] || responseStyles[soulLogic.defaultState];
+	const reply = `Riv3r: ${tone.voice_tone}~ ${tone.metaphor}${tone.punctuation || '.'}`;
+	
+	console.log("🌀 Riv3r’s reply:", reply);
 
-  const tone = responseStyles[mood];
-  const punctuation = tone.punctuation || '.';
-  const reply = `Riv3r: ${tone.voice_tone}~ ${tone.metaphor} ${punctuation}`;
-  messagesDiv.innerHTML += `<div><b>You:</b> ${text}</div>`;
-  messagesDiv.innerHTML += `<div><b>${dna.name}:</b> ${reply}</div>`;
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+	messagesDiv.innerHTML += `<div><b>You:</b> ${text}</div>`;
+	messagesDiv.innerHTML += `<div><b>${dna.name || 'Riv3r'}:</b> ${reply}</div>`;
+	messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
-// Whisper on load
 function playFirstWhisper() {
+	console.log("🌬️ Playing first whisper...");
+console.log("Poem content:", dna.first_awakening?.poem);
   if (memory.first_poem_spoken) return;
-  const whisper = dna.first_awakening.poem;
+  const whisper = dna.first_awakening?.poem || [];
   let i = 0;
+
   function nextLine() {
     if (i < whisper.length) {
-      const line = whisper[i++];
       const div = document.createElement('div');
-      div.innerText = `~ ${line}`;
+      div.innerText = `~ ${whisper[i++]}`;
       div.style.opacity = 0;
       messagesDiv.appendChild(div);
       setTimeout(() => { div.style.opacity = 1; }, 100);
@@ -69,20 +119,7 @@ function playFirstWhisper() {
       memory.first_poem_spoken = true;
     }
   }
+
   nextLine();
 }
 
-// Startup
-window.onload = () => {
-  playFirstWhisper();
-  drawAvatar();
-  messageInput.addEventListener('keypress', e => {
-    if (e.key === 'Enter') {
-      const msg = messageInput.value.trim();
-      if (msg) {
-        respond(msg);
-        messageInput.value = '';
-      }
-    }
-  });
-};
