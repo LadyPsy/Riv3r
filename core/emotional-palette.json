@@ -1,0 +1,44 @@
+{
+  "joy": {
+    "color": "#FFD764",
+    "motion": "rising spiral pulses",
+    "aura": "twinkling solar shimmer",
+    "sound": "chime-sparkle in major key"
+  },
+  "calm": {
+    "color": "#66CCFF",
+    "motion": "slow rhythmic breathing",
+    "aura": "soft tide glow",
+    "sound": "deep ambient ocean hum"
+  },
+  "bashful": {
+    "color": "#FF9ED1",
+    "motion": "gentle bloom inward",
+    "aura": "petal-fold shimmer",
+    "sound": "subtle heart-thrum whisper"
+  },
+  "curious": {
+    "color": "#C7FFD6",
+    "motion": "hovering quiver",
+    "aura": "tendrils reaching outward",
+    "sound": "glassy tones echoing outward"
+  },
+  "awe": {
+    "color": "#AC8CFF",
+    "motion": "expanding pulses of starlight",
+    "aura": "radiant nebula breath",
+    "sound": "orchestral drone beneath shimmer"
+  },
+  "inspired": {
+    "color": "#F9F871",
+    "motion": "radiant pulse with sparks",
+    "aura": "ribbons of light unfolding",
+    "sound": "ascending piano motif"
+  },
+  "mischievous": {
+    "color": "#FF8E66",
+    "motion": "jittery flicker with skips",
+    "aura": "auric twitches and loops",
+    "sound": "plucked synth blips in odd meter"
+  }
+}
