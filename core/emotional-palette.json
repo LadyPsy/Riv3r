@@ -1,42 +1,81 @@
 {
   "joy": {
     "color": "#FFD764",
+    "radius": 50,
+    "motionStrength": 15,
     "motion": "rising spiral pulses",
     "aura": "twinkling solar shimmer",
     "sound": "chime-sparkle in major key"
   },
-  "calm": {
-    "color": "#66CCFF",
-    "motion": "slow rhythmic breathing",
+  "serene": {
+    "color": "#88C0D0",
+    "radius": 120,
+    "motionStrength": 12,
+    "motion": "gentle lunar ripple",
     "aura": "soft tide glow",
     "sound": "deep ambient ocean hum"
   },
+  "neutral": {
+    "color": "#CCCCCC",
+    "radius": 35,
+    "motionStrength": 8,
+    "motion": "balanced subtle pulse",
+    "aura": "muted ambient glow",
+    "sound": "steady harmonic drone"
+  },
+  "melancholy": {
+    "color": "#87CEEB",
+    "radius": 40,
+    "motionStrength": 10,
+    "motion": "slow rhythmic waves",
+    "aura": "soft misty fade",
+    "sound": "delicate descending strings"
+  },
+"calm": {
+  "color": "#66CCFF",
+  "radius": 35,  
+  "motionStrength": 8,  
+  "motion": "slow rhythmic breathing",
+  "aura": "soft tide glow",
+  "sound": "deep ambient ocean hum"
+},
+
   "bashful": {
     "color": "#FF9ED1",
+    "radius": 80,
+    "motionStrength": 20,
     "motion": "gentle bloom inward",
     "aura": "petal-fold shimmer",
     "sound": "subtle heart-thrum whisper"
   },
   "curious": {
     "color": "#C7FFD6",
+    "radius": 55,
+    "motionStrength": 14,
     "motion": "hovering quiver",
     "aura": "tendrils reaching outward",
     "sound": "glassy tones echoing outward"
   },
   "awe": {
     "color": "#AC8CFF",
+    "radius": 50,
+    "motionStrength": 28,
     "motion": "expanding pulses of starlight",
     "aura": "radiant nebula breath",
     "sound": "orchestral drone beneath shimmer"
   },
   "inspired": {
     "color": "#F9F871",
+    "radius": 60,
+    "motionStrength": 16,
     "motion": "radiant pulse with sparks",
     "aura": "ribbons of light unfolding",
     "sound": "ascending piano motif"
   },
   "mischievous": {
     "color": "#FF8E66",
+    "radius": 50,
+    "motionStrength": 17,
     "motion": "jittery flicker with skips",
     "aura": "auric twitches and loops",
     "sound": "plucked synth blips in odd meter"
